@@ -1,0 +1,11 @@
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\bin\Debug\Q2_Bank.exe.config
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\bin\Debug\Q2_Bank.exe
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\bin\Debug\Q2_Bank.pdb
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.csprojResolveAssemblyReference.cache
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.Form1.resources
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.Properties.Resources.resources
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.csproj.GenerateResource.Cache
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.exe
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.pdb
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.Form2.resources
+D:\220953438\Lab2\Q2_Bank\Q2_Bank\obj\Debug\Q2_Bank.Form3.resources
