@@ -1,0 +1,8 @@
+D:\220953438\Lab2Q2\Lab2Q2\bin\Debug\Lab2Q2.exe.config
+D:\220953438\Lab2Q2\Lab2Q2\bin\Debug\Lab2Q2.exe
+D:\220953438\Lab2Q2\Lab2Q2\bin\Debug\Lab2Q2.pdb
+D:\220953438\Lab2Q2\Lab2Q2\obj\Debug\Lab2Q2.Form1.resources
+D:\220953438\Lab2Q2\Lab2Q2\obj\Debug\Lab2Q2.Properties.Resources.resources
+D:\220953438\Lab2Q2\Lab2Q2\obj\Debug\Lab2Q2.csproj.GenerateResource.Cache
+D:\220953438\Lab2Q2\Lab2Q2\obj\Debug\Lab2Q2.exe
+D:\220953438\Lab2Q2\Lab2Q2\obj\Debug\Lab2Q2.pdb
