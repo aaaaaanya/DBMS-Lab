@@ -1,0 +1,273 @@
+
+SQL> create table PERSON
+  2  ( driver_id varchar(30),
+  3  name varchar (30),
+  4  address varchar(30),
+  5  primary key (driver_id));
+
+SQL> create table CAR
+  2  ( regno varchar(20),
+  3  model varchar (30),
+  4  year int,
+  5  primary key (regno));
+
+SQL> create table ACCIDENT
+  2  ( report_number int,
+  3  accd_date date,
+  4  location varchar(50),
+  5  primary key (report_number));
+
+create table OWNS(
+  2  driver_id varchar(30),
+  3  regno varchar(20),
+  4  foreign key (driver_id) references PERSON on delete cascade,
+  5  foreign key (regno) references CAR on delete cascade);
+
+create table PARTICIPATED (
+  2  driver_id varchar(30),
+  3  regno varchar(20),
+  4  report_number int,
+  5  damage_amount int,
+  6  foreign key (driver_id) references PERSON on delete cascade,
+  7  foreign key (regno) references CAR on delete cascade,
+  8  foreign key (report_number) references ACCIDENT on delete cascade);
+ii)
+SQL> insert into PERSON values ('1','Aanya','Sarjapur');
+
+1 row created.
+
+SQL> insert into PERSON values ('2','Yelan','Whitefield');
+
+1 row created.
+
+SQL> insert into PERSON values ('3','Dehya','Andheri');
+
+1 row created.
+
+SQL> insert into PERSON values ('4','Satoru','Bandra');
+
+1 row created.
+
+SQL> insert into PERSON values ('5','Blade','Parel');
+
+ select * from PERSON;
+
+DRIVER_ID                      NAME
+------------------------------ ------------------------------
+ADDRESS
+------------------------------
+1                              Aanya
+Sarjapur
+
+2                              Yelan
+Whitefield
+
+3                              Dehya
+Andheri
+
+
+DRIVER_ID                      NAME
+------------------------------ ------------------------------
+ADDRESS
+------------------------------
+4                              Satoru
+Bandra
+
+5                              Blade
+Parel
+
+
+SQL> insert into CAR values ('38','Porsche',2008);
+
+1 row created.
+
+SQL> insert into CAR values ('51','Ferrari',2006);
+
+1 row created.
+
+SQL> insert into CAR values ('70','Toyota',2003);
+
+1 row created.
+
+SQL> insert into CAR values ('33','Mercedes',2014);
+
+1 row created.
+
+SQL> insert into CAR values ('66','Scorpio',2010);
+
+1 row created.
+
+SQL> select * from CAR;
+
+REGNO                MODEL                                YEAR
+-------------------- ------------------------------ ----------
+38                   Porsche                              2008
+51                   Ferrari                              2006
+70                   Toyota                               2003
+33                   Mercedes                             2014
+66                   Scorpio                              2010
+
+SQL> insert into ACCIDENT values (10, to_date('2020-01-14','yyyy-mm-dd'), 'Whitefield');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (11, to_date('2017-12-15','yyyy-mm-dd'), 'Whitefield');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (12, to_date('2017-09-05','yyyy-mm-dd'), 'Sealink');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (13, to_date('2015-07-24','yyyy-mm-dd'), 'Marine Drive');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (14, to_date('2023-12-18','yyyy-mm-dd'), 'HSR');
+
+1 row created.
+
+SQL> select * from ACCIDENT;
+
+REPORT_NUMBER ACCD_DATE LOCATION
+------------- --------- --------------------------------------------------
+           10 14-JAN-20 Whitefield
+           11 15-DEC-17 Whitefield
+           12 05-SEP-17 Sealink
+           13 24-JUL-15 Marine Drive
+           14 18-DEC-23 HSR
+
+SQL> insert into OWNS values ('1','38');
+
+1 row created.
+
+SQL> insert into OWNS values ('2','51');
+
+1 row created.
+
+SQL> insert into OWNS values ('3','70');
+
+1 row created.
+
+SQL> insert into OWNS values ('4','33');
+
+1 row created.
+
+SQL> insert into OWNS values ('5','66');
+
+1 row created.
+
+SQL> select * from OWNS;
+
+DRIVER_ID                      REGNO
+------------------------------ --------------------
+1                              38
+2                              51
+3                              70
+4                              33
+5                              66
+
+SQL> insert into PARTICIPATED values ('1','38',10,23000);
+
+1 row created.
+
+SQL> insert into PARTICIPATED values ('2','51',11,45000);
+
+1 row created.
+
+SQL> insert into PARTICIPATED values ('3','70',12,32450);
+
+1 row created.
+
+SQL> insert into PARTICIPATED values ('4','33',13,31000);
+
+1 row created.
+
+SQL> insert into PARTICIPATED values ('5','66',14,19000);
+
+1 row created.
+
+SQL> select * from PARTICIPATED;
+
+DRIVER_ID                      REGNO                REPORT_NUMBER DAMAGE_AMOUNT
+------------------------------ -------------------- ------------- -------------
+1                              38                              10         23000
+2                              51                              11         45000
+3                              70                              12         32450
+4                              33                              13         31000
+5                              66                              14         19000
+
+iii)
+SQL> update PARTICIPATED
+  2  set damage_amount=25000
+  3  where (regno='70' and report_number=12);
+
+1 row updated.
+
+SQL> select * from PARTICIPATED;
+
+DRIVER_ID                      REGNO                REPORT_NUMBER DAMAGE_AMOUNT
+------------------------------ -------------------- ------------- -------------
+1                              38                              10         23000
+2                              51                              11         45000
+3                              70                              12         25000
+4                              33                              13         31000
+5
+iv)
+SQL> delete from ACCIDENT
+  2  where extract(year from accd_date)=2020;
+
+1 row deleted.
+
+SQL> select * from ACCIDENT;
+
+REPORT_NUMBER ACCD_DATE LOCATION
+------------- --------- --------------------------------------------------
+           11 15-DEC-17 Whitefield
+           12 05-SEP-17 Sealink
+           13 24-JUL-15 Marine Drive
+           14 18-DEC-23 HSR
+
+SQL> select * from PARTICIPATED;
+
+DRIVER_ID                      REGNO                REPORT_NUMBER DAMAGE_AMOUNT
+------------------------------ -------------------- ------------- -------------
+2                              51                              11         45000
+3                              70                              12         25000
+4                              33                              13         31000
+5                              66                              14         19000
+
+v) alter table CAR add price int;
+
+Table altered.
+
+SQL> select * from CAR;
+
+REGNO                MODEL                                YEAR      PRICE
+-------------------- ------------------------------ ---------- ----------
+38                   Porsche                              2008
+51                   Ferrari                              2006
+70                   Toyota                               2003
+33                   Mercedes                             2014
+66                   Scorpio                              2010
+
+SQL> alter table CAR drop column price;
+
+Table altered.
+
+SQL> select * from CAR;
+
+REGNO                MODEL                                YEAR
+-------------------- ------------------------------ ----------
+38                   Porsche                              2008
+51                   Ferrari                              2006
+70                   Toyota                               2003
+33                   Mercedes                             2014
+66
+
+vi)
+alter table ACCIDENT add check (report_number>5);
+
+Table altered.
+
+

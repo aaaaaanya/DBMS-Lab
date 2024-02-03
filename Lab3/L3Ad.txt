@@ -1,0 +1,348 @@
+L3Ad
+
+i)SQL> create table CUSTOMER(
+  2  cust# int,
+  3  cname varchar(50),
+  4  city varchar(30),
+  5  primary key (cust#));
+
+Table created.
+
+SQL> desc CUSTOMER;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST#                                     NOT NULL NUMBER(38)
+ CNAME                                              VARCHAR2(50)
+ CITY                                               VARCHAR2(30)
+
+SQL> create table ORDERS (
+  2  order# int,
+  3  odate date,
+  4  cust# int,
+  5  ordamt int,
+  6  primary key (order#));
+
+Table created.
+
+SQL> desc ORDERS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ORDER#                                    NOT NULL NUMBER(38)
+ ODATE                                              DATE
+ CUST#                                              NUMBER(38)
+ ORDAMT                                             NUMBER(38)
+
+SQL> create table ITEM(
+  2  item# int,
+  3  unitprice int,
+  4  primary key (item#));
+
+Table created.
+
+SQL> desc ITEM;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ITEM#                                     NOT NULL NUMBER(38)
+ UNITPRICE                                          NUMBER(38)
+
+SQL> create table ORDER_ITEMS(
+  2  order# int,
+  3  item# int,
+  4  qty int,
+  5  foreign key (order#) references ORDERS on delete cascade,
+  6  foreign key (item#) references ITEM on delete cascade);
+
+Table created.
+
+SQL> desc ORDER_ITEMS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ORDER#                                             NUMBER(38)
+ ITEM#                                              NUMBER(38)
+ QTY                                                NUMBER(38)
+
+SQL> create table SHIPMENT(
+  2  order# int,
+  3  warehouse# int,
+  4  shipdate date,
+  5  foreign key (order#) references ORDERS on delete cascade);
+
+Table created.
+
+SQL> desc SHIPMENT;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ORDER#                                             NUMBER(38)
+ WAREHOUSE#                                         NUMBER(38)
+ SHIPDATE                                           DATE
+
+SQL> create table WAREHOUSE (
+  2  warehouse# int,
+  3  city varchar(30),
+  4  primary key (warehouse#));
+
+Table created.
+
+SQL> desc WAREHOUSE;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ WAREHOUSE#                                NOT NULL NUMBER(38)
+ CITY   
+
+SQL> alter table ORDERS add foreign key (cust#) references CUSTOMER on delete cascade;
+
+Table altered.                                            VARCHAR2(30)
+
+ii) SQL> insert into customer values (1, 'Aanya','Bengaluru');
+
+1 row created.
+
+SQL> insert into customer values (2, 'Yelan','Beijing');
+
+1 row created.
+
+SQL> insert into customer values (3, 'Dehya','Bengaluru');
+
+1 row created.
+
+SQL> insert into customer values (4, 'Satoru','Tokyo');
+
+1 row created.
+
+SQL> insert into customer values (5, 'Blade','Chicago');
+
+1 row created.
+
+SQL> select * from customer;
+
+     CUST# CNAME
+---------- --------------------------------------------------
+CITY
+------------------------------
+         1 Aanya
+Bengaluru
+
+         2 Yelan
+Beijing
+
+         3 Dehya
+Bengaluru
+
+
+     CUST# CNAME
+---------- --------------------------------------------------
+CITY
+------------------------------
+         4 Satoru
+Tokyo
+
+         5 Blade
+Chicago
+
+
+SQL> alter table ORDERS add foreign key (cust#) references CUSTOMER on delete cascade;
+
+Table altered.
+
+SQL>
+SQL> insert into orders values (21,to_date('2024-01-13','yyyy-mm-dd'),1,5);
+
+1 row created.
+
+SQL> insert into orders values (13,to_date('2023-12-12','yyyy-mm-dd'),2,7);
+
+1 row created.
+
+SQL> insert into orders values (15,to_date('2023-12-24','yyyy-mm-dd'),3,2);
+
+1 row created.
+
+SQL> insert into orders values (5,to_date('2022-03-25','yyyy-mm-dd'),4,4);
+
+1 row created.
+
+SQL> insert into orders values (23,to_date('2024-02-03','yyyy-mm-dd'),5,10);
+
+1 row created.
+
+SQL> select * from ORDERS;
+
+    ORDER# ODATE          CUST#     ORDAMT
+---------- --------- ---------- ----------
+        21 13-JAN-24          1          5
+        13 12-DEC-23          2          7
+        15 24-DEC-23          3          2
+         5 25-MAR-22          4          4
+        23 03-FEB-24          5         10
+
+SQL> insert into item values (10,20);
+
+1 row created.
+
+SQL> insert into item values (11,23);
+
+1 row created.
+
+SQL> insert into item values (12,15);
+
+1 row created.
+
+SQL> insert into item values (13,35);
+
+1 row created.
+
+SQL> insert into item values (14,30);
+
+1 row created.
+
+SQL> select * from ITEM;
+
+     ITEM#  UNITPRICE
+---------- ----------
+        10         20
+        11         23
+        12         15
+        13         35
+        14         30
+
+SQL> insert into order_items values (21,10,5);
+
+1 row created.
+
+SQL> insert into order_items values (13,11,7);
+
+1 row created.
+
+SQL> insert into order_items values (15,12,2);
+
+1 row created.
+
+SQL> insert into order_items values (5,13,4);
+
+1 row created.
+
+SQL> insert into order_items values (23,14,10);
+
+1 row created.
+
+SQL> update ORDERS set ordamt=100 where cust#=1;
+
+1 row updated.
+
+SQL> update ORDERS set ordamt=161\ where cust#=2;
+update ORDERS set ordamt=161\ where cust#=2
+                            *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> update ORDERS set ordamt=161 where cust#=2;
+
+1 row updated.
+
+SQL> update ORDERS set ordamt=30 where cust#=3;
+
+1 row updated.
+
+SQL> update ORDERS set ordamt=140 where cust#=4;
+
+1 row updated.
+
+SQL> update ORDERS set ordamt=300 where cust#=5;
+
+1 row updated.
+
+SQL> select * from ORDERS;
+
+    ORDER# ODATE          CUST#     ORDAMT
+---------- --------- ---------- ----------
+        21 13-JAN-24          1        100
+        13 12-DEC-23          2        161
+        15 24-DEC-23          3         30
+         5 25-MAR-22          4        140
+        23 03-FEB-24          5        300
+
+SQL> select * from ORDER_ITEMS;
+
+    ORDER#      ITEM#        QTY
+---------- ---------- ----------
+        21         10          5
+        13         11          7
+        15         12          2
+         5         13          4
+        23         14         10
+
+SQL> insert into warehouse values (100, 'Udupi');
+
+1 row created.
+
+SQL> insert into warehouse values (200, 'Shanghai');
+
+1 row created.
+
+SQL> insert into warehouse values (300\, 'Bengaluru');
+insert into warehouse values (300\, 'Bengaluru')
+                                 *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> insert into warehouse values (300, 'Bengaluru');
+
+1 row created.
+
+SQL> insert into warehouse values (400, 'Hong Kong');
+
+1 row created.
+
+SQL> insert into warehouse values (500, 'Kyoto');
+
+1 row created.
+
+SQL> select * from warehouse;
+
+WAREHOUSE# CITY
+---------- ------------------------------
+       100 Udupi
+       200 Shanghai
+       300 Bengaluru
+       400 Hong Kong
+       500 Kyoto
+
+SQL> alter table shipment add foreign key (warehouse#) references warehouse on delete cascade;
+
+Table altered.
+
+SQL> insert into shipment values (21,100,to_date('2024-01-15','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into shipment values (13,200,to_date('2023-12-16','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into shipment values (15,300,to_date('2023-12-28','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into shipment values (5,400,to_date('2022-03-29','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into shipment values (23,500,to_date('2024-02-4','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> select * from shipment;
+
+    ORDER# WAREHOUSE# SHIPDATE
+---------- ---------- ---------
+        21        100 15-JAN-24
+        13        200 16-DEC-23
+        15        300 28-DEC-23
+         5        400 29-MAR-22
+        23        500 04-FEB-24
+
+iii)
+
+
