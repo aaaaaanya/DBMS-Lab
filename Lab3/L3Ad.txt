@@ -343,6 +343,19 @@ SQL> select * from shipment;
          5        400 29-MAR-22
         23        500 04-FEB-24
 
-iii)
+iii) select cname as CUSTNAME, count(order#) as No_of_Orders, avg(ordamt) as AVG_ORDER_AMT
+from customer natural join orders
+group by cname;
+
+iv) select order#
+  2  from shipment natural join warehouse
+  3  where warehouse.city='Bangalore';
+
+v)update orders
+  2  set ordamt=ordamt*
+  3  case
+  4  when (select * from order_items where qty>10) then 0.9
+  5  else 0.95
+  6  end;
 
 
