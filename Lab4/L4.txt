@@ -1,0 +1,48 @@
+1. SQL> insert into ACCIDENT values (15, to_date('2024-01-13','yyyy-mm-dd'), 'Sealink');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (16, to_date('2008-01-13','yyyy-mm-dd'), 'Sarjapur');
+
+1 row created.
+
+SQL> insert into ACCIDENT values (17, to_date('2008-11-12','yyyy-mm-dd'), 'Nariman point');
+
+1 row created.
+
+SQL> insert into participated values ('1','38',16, 43000);
+
+1 row created.
+
+SQL> insert into participated values ('1','38',17, 23000);
+
+1 row created.
+
+SQL> select count(*)
+  2  from accident natural join participated
+  3  where extract(year from accd_date)='2008'
+  4  group by driver_id;
+
+  COUNT(*)
+----------
+         2
+
+ii)SQL> select count(*)
+  2  from car natural join participated
+  3  where car.model='Porsche';
+
+  COUNT(*)
+----------
+         2
+iii) SQL> select name as owner_name ,count(*) as No_of_accidents, sum(damage_amount) as total_damage_amount
+ from person natural join participated
+ group by name
+ order by total_damage_amount desc;
+
+OWNER_NAME NO_OF_ACCIDENTS TOTAL_DAMAGE_AMOUNT
+---------- --------------- -------------------
+Aanya                    2               66000
+Yelan                    1               45000
+Satoru                   1               31000
+Dehya                    1               25000
+Blade                    1               19000
