@@ -46,3 +46,9 @@ Yelan                    1               45000
 Satoru                   1               31000
 Dehya                    1               25000
 Blade                    1               19000
+
+v)select name,driver_id 
+from person 
+where driver_id not in (select driver_id from participated);
+
+iv) 
