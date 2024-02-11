@@ -51,4 +51,10 @@ v)select name,driver_id
 from person 
 where driver_id not in (select driver_id from participated);
 
-iv) 
+iv)  select driver_id 
+from person 
+where driver_id in
+(select driver_id
+from participated natural join accident 
+group by driver_id, extract(year from accd_date) 
+having count(*)>=2);
