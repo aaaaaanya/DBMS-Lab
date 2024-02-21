@@ -1,39 +1,294 @@
+recheck iii.b)
+
 i)SQL> create table STUDENT (
-  2  regno varchar(20),
-  3  name varchar(20),
-  4  major varchar(20),
-  5  bdate date,
-  6  primary key (regno));
+    regno varchar(20),
+    name varchar(20),
+    major varchar(20),
+    bdate date,
+    primary key (regno));
 
 Table created.
 
 SQL> create table COURSE(
-  2  course# int,
-  3  cname varchar(20),
-  4  dept varchar(20),
-  5  primary key (course#));
+    course# int,
+    cname varchar(20),
+    dept varchar(20),
+    primary key (course#));
 
 Table created.
 
 SQL> create table ENROLL(
-  2  regno varchar(20),
-  3  course# int,
-  4  foreign key (regno) references STUDENT on delete cascade,
-  5  foreign key (course#) references COURSE on delete cascade);
+    regno varchar(20),
+    course# int,
+    foreign key (regno) references STUDENT on delete cascade,
+    foreign key (course#) references COURSE on delete cascade);
 
 Table created.
 
 SQL> create table TEXT(
-  2  book_isbn int,
-  3  booktitle varchar(20),
-  4  publisher varchar(20),
-  5  author varchar(20),
-  6  primary key (book_isbn));
+    book_isbn int,
+    booktitle varchar(20),
+    publisher varchar(20),
+    author varchar(20),
+    primary key (book_isbn));
 
 Table created.
 
 SQL> create table BOOK_ADOPTION(
-  2  course# int,
-  3  sem int,
-  4  book_isbn int,
-  5  foreign key (book_isbn)references TEXT on delete cascade);
+    course# int,
+    sem int,
+    book_isbn int,
+    foreign key (book_isbn) references TEXT on delete cascade);
+
+ii)SQL> insert into student values ('34','Aanya','Engineering',to_date('2003-10-03','yyyy-mm-dd'));
+SQL> insert into student values ('22','Blade','Medicine',to_date('2002-11-02','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into student values ('20','Kafka','Psychology',to_date('2001-05-17','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into student values ('04','Kazuha','Humanities',to_date('2003-12-27','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into student values ('44','Serval','Engineering',to_date('2004-10-08','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> select * from student;
+
+REGNO                NAME                 MAJOR                BDATE
+-------------------- -------------------- -------------------- ---------
+34                   Aanya                Engineering          03-OCT-03
+22                   Blade                Medicine             02-NOV-02
+20                   Kafka                Psychology           17-MAY-01
+04                   Kazuha               Humanities           27-DEC-03
+44                   Serval               Engineering          08-OCT-04
+
+SQL> insert into course values (1,'Data science','ICT');
+
+1 row created.
+
+SQL> insert into course values (2,'Operating systems','ICT');
+
+1 row created.
+
+SQL> insert into course values (3,'Life Science','Chemical');
+
+1 row created.
+
+SQL> insert into course values (4,'Economics','Commerce');
+
+1 row created.
+
+SQL> insert into course values (5,'Zoology','Biology');
+
+1 row created.
+
+SQL> select * from course;
+
+   COURSE# CNAME                DEPT
+---------- -------------------- --------------------
+         1 Data science         ICT
+         2 Operating systems    ICT
+         3 Life Science         Chemical
+         4 Economics            Commerce
+         5 Zoology              Biology
+
+SQL> insert into enroll values ('34',1);
+
+1 row created.
+
+SQL> insert into enroll values ('34',2);
+
+1 row created.
+
+SQL> insert into enroll values ('22',3);
+
+1 row created.
+
+SQL> insert into enroll values ('22',5);
+
+1 row created.
+
+SQL> insert into enroll values ('20',4);
+
+1 row created.
+
+SQL> select * from enroll;
+
+REGNO                   COURSE#
+-------------------- ----------
+34                            1
+34                            2
+22                            3
+22                            5
+20                            4
+
+insert into text values (10,'Let us C','BPB','Yashawant Kanetkar');
+
+1 row created.
+
+SQL> insert into text values (11,'Dynamic systems','Penguin','Yashawant Kanetkar');
+
+1 row created.
+
+SQL> insert into text values (12,'Basics of OS','BPB','Yashawant Kanetkar');
+
+1 row created.
+
+SQL> insert into text values (13,'In this economy','Prithvi','Jayesh Sharma');
+
+1 row created.
+
+SQL> insert into text values (14,'First aid basics','Core Publishers','Tao Le');
+
+1 row created.
+SQL> insert into text values (15,'Pathology today','Core Publishers','Tao Le');
+
+1 row created.
+
+SQL> insert into text values (16,'Davidson principle','Penguin','John Doe');
+
+1 row created.
+
+SQL> insert into text values (17,'Empathise','Parlour','Hu Tao');
+
+1 row created.
+
+SQL> select * from text;
+
+ BOOK_ISBN BOOKTITLE            PUBLISHER            AUTHOR
+---------- -------------------- -------------------- --------------------
+        10 Let us C             BPB                  Yashawant Kanetkar
+        11 Dynamic systems      Penguin              Yashawant Kanetkar
+        12 Basics of OS         BPB                  Yashawant Kanetkar
+        13 In this economy      Prithvi              Jayesh Sharma
+        14 First aid basics     Core Publishers      Tao Le
+        15 Pathology today      Core Publishers      Tao Le
+        16 Davidson principle   Penguin              John Doe
+        17 Empathise            Parlour              Hu Tao
+
+8 rows selected.
+
+SQL> insert into book_adoption values (1,3,10);
+
+1 row created.
+
+SQL> insert into book_adoption values (2,3,11);
+
+1 row created.
+
+SQL> insert into book_adoption values (2,4,12);
+
+1 row created.
+
+SQL> insert into book_adoption values (4,4,13);
+
+1 row created.
+
+SQL> insert into book_adoption values (5,5,14);
+
+1 row created.
+
+SQL> insert into book_adoption values (5,6,15);
+
+1 row created.
+
+SQL> insert into book_adoption values (5,5,16);
+
+1 row created.
+
+SQL> insert into book_adoption values (4,3,17);
+
+1 row created.
+
+SQL> select * from book_adoption;
+
+   COURSE#        SEM  BOOK_ISBN
+---------- ---------- ----------
+         1          3         10
+         2          3         11
+         2          4         12
+         4          4         13
+         5          5         14
+         5          6         15
+         5          5         16
+         4          3         17
+
+8 rows selected.
+
+SQL> insert into text values (18,'Harry Potter','Rowing','JK Rowling');
+
+1 row created.
+SQL> insert into course values(6,'Roads','Civil');
+SQL> insert into text values(19,'Cement and tar','Parlour','Ritik Hut');
+SQL> insert into book_adoption values(6,3,19);
+
+iii)
+a)
+SQL> select cname
+  2  from course
+  3  where course# in
+  4  (select course#
+  5  from book_adoption
+  6  group by course#
+  7  having count(*)>1);
+
+CNAME
+--------------------
+Operating systems
+Economics
+Zoology
+b)(recheck this)
+SQL> select distinct dept from course where course# in
+  2  (select course# from book_adoption natural join text where publisher='BPB');
+
+DEPT
+--------------------
+ICT
+
+c)SQL> select name from student where
+  2  (select count(distinct dept)
+  3  from course natural join enroll
+  4  where student.regno=enroll.regno)>1;
+
+NAME
+--------------------
+Blade
+
+SQL>
+
+d)SQL> select name from student where regno not in(select regno from enroll);
+
+NAME
+--------------------
+Serval
+Kazuha
+
+e)SQL> select booktitle from text where book_isbn in(select book_isbn from book_adoption where course# in(select course# from enroll));
+
+BOOKTITLE
+--------------------
+Let us C
+Dynamic systems
+Basics of OS
+In this economy
+First aid basics
+Pathology today
+Davidson principle
+Empathise
+
+8 rows selected.
+f)select cname from course where
+  2  (select count(book_isbn) from text natural join book_adoption
+  3  where publisher='Core Publishers' and course.course#=book_adoption.course#)>1;
+
+CNAME
+--------------------
+Zoology
+g)
+
+ 
