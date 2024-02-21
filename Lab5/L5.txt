@@ -1,0 +1,39 @@
+i)SQL> create table STUDENT (
+  2  regno varchar(20),
+  3  name varchar(20),
+  4  major varchar(20),
+  5  bdate date,
+  6  primary key (regno));
+
+Table created.
+
+SQL> create table COURSE(
+  2  course# int,
+  3  cname varchar(20),
+  4  dept varchar(20),
+  5  primary key (course#));
+
+Table created.
+
+SQL> create table ENROLL(
+  2  regno varchar(20),
+  3  course# int,
+  4  foreign key (regno) references STUDENT on delete cascade,
+  5  foreign key (course#) references COURSE on delete cascade);
+
+Table created.
+
+SQL> create table TEXT(
+  2  book_isbn int,
+  3  booktitle varchar(20),
+  4  publisher varchar(20),
+  5  author varchar(20),
+  6  primary key (book_isbn));
+
+Table created.
+
+SQL> create table BOOK_ADOPTION(
+  2  course# int,
+  3  sem int,
+  4  book_isbn int,
+  5  foreign key (book_isbn)references TEXT on delete cascade);
