@@ -289,7 +289,19 @@ f)select cname from course where
 CNAME
 --------------------
 Zoology
-g)
+g)SQL> select regno
+  2  from enroll natural join book_adoption
+  3  group by enroll.regno
+  4  having count(book_isbn)>= all
+  5  ( select count(book_isbn)
+  6  from enroll
+  7  natural join book_adoption
+  8  group by enroll.regno);
+
+REGNO
+--------------------
+34
+22
 
 i)SQL> select distinct name
   2  from student natural join enroll
@@ -302,13 +314,23 @@ NAME
 Aanya
 Kafka
 
-i)
+i)SQL> select distinct name
+  2      from student natural join enroll
+  3       where course# in
+  4      (select course# from book_adoption);
+
+NAME
+--------------------
+Aanya
+Kafka
+Blade
+
 
 j)SQL> create view student_enrolledincourse_adoptsbooks as
-  2  select distinct name
-  3  from student natural join enroll
-  4  where course# in
-  5  (select course# from book_adoption);
+    select distinct name
+    from student natural join enroll
+     where course# in
+    (select course# from book_adoption);
 
 SQL> select * from student_enrolledincourse_adoptsbooks;
 
