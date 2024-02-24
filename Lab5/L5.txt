@@ -303,16 +303,18 @@ REGNO
 34
 22
 
-i)SQL> select distinct name
-  2  from student natural join enroll
-  3  where course# in
-  4  (select course#
-  5  from book_adoption);
+h)SQL> select publisher, count(distinct book_isbn)
+  2  from text
+  3  group by publisher;
 
-NAME
---------------------
-Aanya
-Kafka
+PUBLISHER            COUNT(DISTINCTBOOK_ISBN)
+-------------------- ------------------------
+BPB                                         2
+Penguin                                     2
+Prithvi                                     1
+Core Publishers                             2
+Parlour                                     2
+Rowing                                      1
 
 i)SQL> select distinct name
   2      from student natural join enroll
