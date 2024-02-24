@@ -291,4 +291,31 @@ CNAME
 Zoology
 g)
 
+i)SQL> select distinct name
+  2  from student natural join enroll
+  3  where course# in
+  4  (select course#
+  5  from book_adoption);
+
+NAME
+--------------------
+Aanya
+Kafka
+
+i)
+
+j)SQL> create view student_enrolledincourse_adoptsbooks as
+  2  select distinct name
+  3  from student natural join enroll
+  4  where course# in
+  5  (select course# from book_adoption);
+
+SQL> select * from student_enrolledincourse_adoptsbooks;
+
+NAME
+--------------------
+Aanya
+Kafka
+Blade
+
  
