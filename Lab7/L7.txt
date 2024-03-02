@@ -1,0 +1,17 @@
+SQL> create table testing (
+  2  name varchar(20),
+  3  ID varchar(20),
+  4  Address varchar(20),
+  5  primary key (ID));
+
+Table created.
+
+SQL> desc testing;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(20)
+ ID                                        NOT NULL VARCHAR2(20)
+ ADDRESS                                            VARCHAR2(20)
+
+
+Data source name: 172.16.54.24:1521/ictorcl
