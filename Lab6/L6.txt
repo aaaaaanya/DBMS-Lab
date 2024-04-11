@@ -1,37 +1,108 @@
-3)create or replace function accd_fn(yr in varchar2)
-return number
-is
-	no_of_accd number;
+Q2)
+//check this
+create or replace trigger driver_info
+after insert on participated 
+for each row
+Declare 
+	did person.driver_id%type;
+	n person.name%type;
+	adr person.address%type;
+Begin
+	did := :new.driver_id;
+	select name into n, address into adr from person where driver_id = did;
+	DBMS_OUTPUT.PUT_LINE('Name:' || n ||'Driver ID:' || did || 'Address' || adr);
+End;
+
+
+Q3)
+
+SQL> create or replace function total_accidents (yr in varchar2)
+    return number is
+    n number;
 begin
-   
-	select count(report_number) into no_of_accd
-	from accident
-	where extract(year from accd_date)=yr;
-	return no_of_accd;
+select count(*) into n
+from accident
+where extract(year from accd_date)=yr;
+return n;
 end;
-SQL> select accd_count('2017') from dual;
 
-ACCD_COUNT('2017')
-------------------
-                 2
 
-4)
-SQL> set serveroutput on
-SQL> create or replace procedure damage(did_in in varchar2,year_in in varchar2)
-  2  as tot_dmg_amt integer;
-  3  begin
-  4    select sum(damage_amount) into tot_dmg_amt
-  5    from participated
-  6    where report_number in (select report_number
-  7    from accident
-  8    where extract(year from accd_date)=year_in)
-  9    and driver_id=did_in;
- 10   DBMS_OUTPUT.PUT_LINE(tot_dmg_amt);
- 11  end;
- 12  /
 
-Procedure created.
+Q4)
 
-SQL> execute damage('1','2008');
-66000
- 5)
+create or replace procedure tot_acc (d in varchar2,yr in varchar2,td out number)
+is
+begin
+select sum(damage_amount) into td
+from participated
+where report_number in 
+(select report_number 
+from accident
+where extract(year from accd_date)=yr)
+and driver_id=d;
+end;
+
+
+
+ declare
+    tot_dmg number;
+    begin
+   tot_acc('1','2008',tot_dmg);
+    dbms_output.put_line('Total damage due to accident is' || tot_dmg);
+    end;
+    /
+
+
+Q5)create or replace procedure acc_info (loc varchar2)
+is
+begin
+for i in (select person.name, accd_date,damage_amount
+from person natural join accident natural join participated
+where location=loc)loop
+dbms_output.put_line(i.name || ' ' || i.accd_date|| ' ' || i.damage_amount);
+end loop;
+end;
+/
+
+Q6)//. Write a procedure which inserts customer information into a table T1, whose total order amount exceeds 10,000 INR.
+// created with compilation errors;
+
+create or replace procedure insert_amt as
+cursor c is 
+select * from customer where cust# in
+(select cust# 
+from orders
+group by cust#
+having sum(ordamt)>100);
+temp c%rowtype;
+begin
+open c;
+loop
+fetch c into temp;
+exit when c%notfound
+insert into Table1 values (temp.cust#,temp.cname,temp.city);
+end loop;
+close c;
+end;
+
+
+
+Q7)create or replace procedure acc_deet as
+cursor c as
+select * from accident ;
+r c%rowtype;
+begin
+open c;
+loop
+fetch c into r;
+exit when c%notfound;
+if r.location='Sealink' then
+insert into loc_1 values(r.report_number, r.accd_date);
+elseif r.location='Whitefield' then
+insert into loc_2 values(r.report_number, r.accd_date);
+end if;
+end loop;
+close c;
+end;
+/
+
