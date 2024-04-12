@@ -1,0 +1,138 @@
+//vii not done
+
+i) 
+SQL> insert into customer values (6,'Mona Meg',null);
+
+1 row created.
+
+SQL> select cname from customer where city is null;
+
+CNAME
+--------------------------------------------------
+Mona Meg
+
+ii)
+
+SQL> select cust# 
+from orders 
+where ordamt= (select max(ordamt) from orders);
+
+     CUST#
+----------
+         5
+
+iii) SQL> insert into orders values (4,to_date('2017-04-04','yyyy-mm-dd'),2,181);
+
+SQL> select order# from  orders where order# not in (select order# from shipment);
+
+    ORDER#
+----------
+         4
+
+iv)SQL> insert into item values (15,17);
+
+1 row created.
+
+SQL> select item# from item where item# not in(select item# from order_items);
+
+     ITEM#
+----------
+        15
+
+v)insert into order_items values (2,13,15);
+
+
+SQL> select item# 
+from order_items 
+group by item# 
+having count(item#)>=all(select count(item#) 
+from order_items
+ group by item#);
+
+     ITEM#
+----------
+        13
+
+vi) SQL> select order# from shipment where shipdate<>'16-DEC-23';
+
+    ORDER#
+----------
+        21
+        15
+        23
+         2
+         3
+
+vii)//what?
+
+viii)
+//not working 
+select r.cust# 
+from shipment natural join orders as r 
+where warehouse#=all(select warehouse# 
+from shipment natural join orders
+ where cust#=r.cust#)
+
+//working chatgpt
+SQL> SELECT c.*
+  2  FROM CUSTOMER c
+  3  WHERE c.cust# IN (
+  4      SELECT o.cust#
+  5      FROM ORDERS o
+  6      GROUP BY o.cust#
+  7      HAVING COUNT(DISTINCT (
+  8          SELECT s.warehouse#
+  9          FROM SHIPMENT s
+ 10          WHERE s.order# = o.order#
+ 11      )) = 1
+ 12  );
+
+     CUST# CNAME
+---------- --------------------------------------------------
+CITY
+------------------------------
+         2 Yelan
+Beijing
+
+         3 Dehya
+Bengaluru
+
+         4 Satoru
+Tokyo
+
+
+     CUST# CNAME
+---------- --------------------------------------------------
+CITY
+------------------------------
+         5 Blade Yin
+Chicago
+
+ix)SQL> select cust# 
+from orders 
+group by cust# 
+having count(*)>=all(select count(*) from orders group by cust#);
+
+     CUST#
+----------
+         1
+
+x)SQL> create view ord_ship as
+  2  select * from shipment natural join orders;
+
+View created.
+//not working
+select r.cust# 
+from ord_ship as r 
+where r.warehouse#=all(select p.warehouse# 
+from ord_ship as p
+ where p.cust#=r.cust#)
+
+//working
+SELECT c.*
+FROM customer c
+WHERE c.cust# IN (
+    SELECT os.cust#
+    FROM ord_ship os
+    GROUP BY os.cust#
+    HAVING COUNT(DISTINCT os.warehouse#) = 1
