@@ -1,0 +1,143 @@
+1)
+SQL> create table Persons(
+  2  PersonID int,
+  3  FirstName varchar(10),
+  4  LastName varchar(10),
+  5  Address varchar(15),
+  6  City varchar(15),
+  7  primary key (PersonID));
+
+2)
+SQL> insert into Persons values (1,'Aanya','Shantaram','Sarjapur','Bengaluru');
+
+1 row created.
+SQL> insert into Persons values (2,'Ritika','Salimath','Yelanka','Bengaluru');
+
+1 row created.
+
+SQL> insert into Persons values (3,'Rachel','Philips','Colaba','Mumbai');
+
+1 row created.
+
+SQL> insert into Persons values (4,'RS','Shantaram','Padi','Chennai');
+
+1 row created.
+
+SQL> insert into Persons values (5,'Vea','Chaubey','Pashan','Pune');
+
+1 row created.
+
+SQL> select * from Persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  Sarjapur        Bengaluru
+         2 Ritika     Salimath   Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Padi            Chennai
+         5 Vea        Chaubey    Pashan          Pune
+
+SQL> commit;
+
+3)
+SQL> savepoint sp1;
+
+Savepoint created.
+
+SQL> update persons set address='HSR' where personid=1;
+
+1 row updated.
+
+SQL> update persons set address='Adyar' where personid=4;
+
+1 row updated.
+
+SQL> select * from persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  HSR             Bengaluru
+         2 Ritika     Salimath   Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Adyar           Chennai
+         5 Vea        Chaubey    Pashan          Pune
+
+4)
+SQL> savepoint sp2;
+
+Savepoint created.
+
+SQL> update persons set lastname='Choubey' where personid=5;
+
+1 row updated.
+
+SQL> update persons set lastname='Sharma' where personid=2;
+
+1 row updated.
+
+SQL> select * from persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  HSR             Bengaluru
+         2 Ritika     Sharma     Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Adyar           Chennai
+         5 Vea        Choubey    Pashan          Pune
+
+5)
+SQL> rollback to sp1;
+
+Rollback complete.
+
+SQL> select * from persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  Sarjapur        Bengaluru
+         2 Ritika     Salimath   Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Padi            Chennai
+         5 Vea        Chaubey    Pashan          Pune
+
+6)
+SQL> update persons set address='Adyar' where personid=4;
+
+1 row updated.
+
+SQL> savepoint sp2;
+
+Savepoint created.
+
+SQL> update persons set lastname='Choubey' where personid=5;
+
+1 row updated.
+
+SQL> update persons set lastname='Sharma' where personid=2;
+
+1 row updated.
+
+SQL> select * from persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  HSR             Bengaluru
+         2 Ritika     Sharma     Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Adyar           Chennai
+         5 Vea        Choubey    Pashan          Pune
+
+SQL> rollback to sp2;
+
+Rollback complete.
+
+SQL> select * from persons;
+
+  PERSONID FIRSTNAME  LASTNAME   ADDRESS         CITY
+---------- ---------- ---------- --------------- ---------------
+         1 Aanya      Shantaram  HSR             Bengaluru
+         2 Ritika     Salimath   Yelanka         Bengaluru
+         3 Rachel     Philips    Colaba          Mumbai
+         4 RS         Shantaram  Adyar           Chennai
+         5 Vea        Chaubey    Pashan          Pune
+
