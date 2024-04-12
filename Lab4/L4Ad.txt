@@ -1,0 +1,146 @@
+a) select cname 
+from customer natural join orders 
+where odate=to_date('2024-01-13','yyyy-mm-dd');
+
+CNAME
+--------------------------------------------------
+Aanya
+
+b) select order#,qty from order_items;
+
+    ORDER#        QTY
+---------- ----------
+        21          5
+        13          7
+        15          2
+         5          4
+        23         10
+
+c)select order# from order_items 
+where qty =(select max(qty) from order_items);
+
+    ORDER#
+----------
+        23
+
+d)update shipment set shipdate=to_date('2023-12-16','yyyy-mm-dd') where order#=5;
+
+SQL> select shipdate 
+from shipment 
+group by shipdate
+ having count(order#) >= all(select count(order#)
+from shipment group by shipdate);
+
+SHIPDATE
+---------
+16-DEC-23
+
+e) select * from item;
+
+     ITEM#  UNITPRICE
+---------- ----------
+        10         20
+        11         23
+        12         15
+        13         35
+        14         30
+
+SQL> select * from order_items;
+
+    ORDER#      ITEM#        QTY
+---------- ---------- ----------
+        21         10          5
+        13         11          7
+        15         12          2
+         5         13          4
+        23         14         10
+
+SQL> delete from item where item#=10;
+
+1 row deleted.
+
+SQL> select * from item;
+
+     ITEM#  UNITPRICE
+---------- ----------
+        11         23
+        12         15
+        13         35
+        14         30
+
+SQL> select * from  order_items;
+
+    ORDER#      ITEM#        QTY
+---------- ---------- ----------
+        13         11          7
+        15         12          2
+         5         13          4
+        23         14         10
+
+f)select order# from shipment natural join warehouse where city='Udupi';
+
+    ORDER#
+----------
+        21
+
+g) update customer set cname='Blade Yin' where cust#=5;
+
+select cname from customer where cname like '% Yin';
+
+CNAME
+--------------------------------------------------
+Blade Yin
+
+h)select cust#,sum(ordamt) 
+from orders 
+group by cust# 
+order by sum(ordamt) desc;
+
+     CUST# SUM(ORDAMT)
+---------- -----------
+         5         300
+         2         161
+         4         140
+         1         100
+         3          30
+
+i) SQL> insert into orders values (2,to_date('2020-12-03','yyyy-mm-dd'),1,120);
+
+1 row created.
+
+SQL> insert into orders values (3,to_date('2010-10-03','yyyy-mm-dd'),1,180);
+
+1 row created.
+
+SQL> insert into shipment values (2,100,to_date('2024-01-15','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> insert into shipment values (3,200,to_date('2024-01-15','yyyy-mm-dd'));
+
+1 row created.
+
+SQL> select * from shipment;
+
+    ORDER# WAREHOUSE# SHIPDATE
+---------- ---------- ---------
+        21        100 15-JAN-24
+        13        200 16-DEC-23
+        15        300 28-DEC-23
+         5        400 16-DEC-23
+        23        500 04-FEB-24
+         2        100 15-JAN-24
+         3        200 15-JAN-24
+
+ 
+SQL> select * from customer r
+  2   where (select count(cust#)
+  3  from shipment natural join orders
+  4  where shipdate='15-JAN-24' and cust#=r.cust#)=3;
+
+     CUST# CNAME
+---------- --------------------------------------------------
+CITY
+------------------------------
+         1 Aanya
+Bengaluru
